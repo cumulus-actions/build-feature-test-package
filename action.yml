@@ -1,0 +1,19 @@
+name: "Build Feature Test Package"
+description: "Create a 2GP beta test package and store its id in a commit status"
+inputs:
+  dev-hub-auth-url:
+    type: string
+    required: True
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Run CumulusCI Flow
+      uses: cumulusci-actions/execute-cumulusci-flow@main
+      with:
+        dev-hub-auth-url: ${{ inputs.dev-hub-auth-url }}
+        org-name: feature
+        flow-name: build_feature_test_package
+        commit-status-name: "Build Feature Test Package"
+        commit-status-regex: "04t[a-zA-Z0-9]*"
+        commit-status-description-prefix: "version_id: "
