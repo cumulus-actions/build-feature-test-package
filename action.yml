@@ -1,18 +1,29 @@
 name: "Build Feature Test Package"
 description: "Create a 2GP beta test package and store its id in a commit status"
 inputs:
+  cumulusci-version:
+    description: 'version of CumulusCI to install'
+    required: false
+  sfdx-version:
+    description: 'version of SFDX to install'
+    required: false
   dev-hub-auth-url:
-    type: string
-    required: True
+    description: 'SFDX auth URL for the Dev Hub'
+    required: true
+  org-name:
+    description: 'Name of the scratch org config to use'
+    required: true
+    default: dev
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v2
-    - name: Run CumulusCI Flow
-      uses: cumulusci-actions/execute-flow-scratch@main
+      uses: cumulusci-actions/run-flow-scratch@v1
       with:
-        dev-hub-auth-url: ${{ inputs.dev-hub-auth-url }}
-        org-name: feature
+        dev-hub-auth-url: '${{ inputs.dev-hub-auth-url }}'
+        org-name: '${{ inputs.org-name }}'
+        cumulusci-version: '${{ inputs.cumulusci-version }}'
+        sfdx-version: '${{ inputs.sfdx-version }}'
         flow-name: build_feature_test_package
         commit-status-name: "Build Feature Test Package"
         commit-status-regex: "04t[a-zA-Z0-9]*"
