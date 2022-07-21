@@ -17,7 +17,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
     - uses: cumulusci-actions/run-flow-scratch@v1
       with:
         dev-hub-auth-url: '${{ inputs.dev-hub-auth-url }}'
